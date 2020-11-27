@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { StyleSheet, Text, View } from 'react-native';
 import {
   selectError
-} from '../store/reducers/restoreAuthReducer';
+} from '../store/reducers/authReducer';
 
 export default function Login() {
   const error = useSelector(selectError);

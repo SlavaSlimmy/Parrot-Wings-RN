@@ -4,33 +4,26 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // eslint-disable-next-line camelcase
 import jwt_decode from 'jwt-decode';
 import {
-  setToken
+  setUser,
+  setError
 } from './authReducer';
 
 export const slice = createSlice({
   name: 'restoreAuth',
   initialState: {
     loading: true,
-    error: null,
   },
   reducers: {
-    restoreTokenFailed: (state, action) => {
+    restoreTokenFinished: (state) => {
       return {
         ...state,
-        error: action.payload,
         loading: false
       };
     },
-    restoreTokenSuccess: (state) => {
-      return {
-        ...state,
-        loading: false
-      };
-    }
   }
 });
 
-export const { restoreTokenFailed, restoreTokenSuccess } = slice.actions;
+export const { restoreTokenFinished } = slice.actions;
 
 export const restoreToken = () => async (dispatch) => {
   let token;
@@ -40,18 +33,18 @@ export const restoreToken = () => async (dispatch) => {
     decoded = jwt_decode(token);
     const now = new Date().valueOf();
     if (now > decoded.exp) { // expired token
-      dispatch(restoreTokenFailed('expired token'));
+      await AsyncStorage.setItem('token', null);
     } else {
-      dispatch(setToken(token));
-      dispatch(restoreTokenSuccess());
+      dispatch(setUser(token));
     }
+    dispatch(restoreTokenFinished());
   } catch (e) {
     // Restoring token failed
-    dispatch(restoreTokenFailed(e.message));
+    dispatch(setError(e.message));
+    dispatch(restoreTokenFinished());
   }
 };
 
-export const selectError = (state) => state.restoreAuth.error;
 export const selectLoading = (state) => state.restoreAuth.loading;
 
 export default slice.reducer;
