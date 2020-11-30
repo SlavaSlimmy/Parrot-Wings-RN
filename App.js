@@ -8,7 +8,7 @@ import Router from './Router';
 
 const theme = {
   colors: {
-    primary: 'pink',
+    primary: '#3f51b5',
   },
 };
 

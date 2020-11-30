@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getUserInfo } from '../../api/index';
+import { getUserInfo, signupUser } from '../../api/index';
 
 export const slice = createSlice({
   name: 'auth',
@@ -48,6 +48,15 @@ export const setUser = (token) => async (dispatch) => {
     dispatch(setToken(token));
     // await AsyncStorage.setItem('token', token);
     dispatch(setUserInfo(userInfo));
+  }
+};
+
+export const signUp = ({ username, password, email }) => async (dispatch) => {
+  const response = await signupUser({ username, password, email });
+  if (!response.id_token) {
+    dispatch(setError(response));
+  } else {
+    dispatch(setUser(response.id_token));
   }
 };
 

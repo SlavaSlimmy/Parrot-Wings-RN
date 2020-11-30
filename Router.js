@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { withTheme } from 'react-native-elements';
 import Home from './screens/Home';
 import SignUp from './screens/SignUp';
 import SplashScreen from './screens/SplashScreen';
@@ -17,7 +18,9 @@ import {
 
 const Stack = createStackNavigator();
 
-function Router() {
+function Router(props) {
+  const { theme } = props;
+
   const loadingRestore = useSelector(selectLoading);
   const token = useSelector(selectToken);
   const dispatch = useDispatch();
@@ -48,7 +51,7 @@ function Router() {
         screenOptions={{
           headerTitleAlign: 'center',
           headerStyle: {
-            backgroundColor: '#f4511e',
+            backgroundColor: theme.colors.primary,
           },
           headerTintColor: '#fff',
           headerTitleStyle: {
@@ -62,4 +65,4 @@ function Router() {
   );
 }
 
-export default Router;
+export default withTheme(Router);

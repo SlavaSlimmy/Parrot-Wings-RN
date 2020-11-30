@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import jwt_decode from 'jwt-decode';
 import {
   setUser,
-  setError
+  // setError
 } from './authReducer';
 
 export const slice = createSlice({
@@ -40,7 +40,7 @@ export const restoreToken = () => async (dispatch) => {
     dispatch(restoreTokenFinished());
   } catch (e) {
     // Restoring token failed
-    dispatch(setError(e.message));
+    // dispatch(setError(e.message));
     dispatch(restoreTokenFinished());
   }
 };
