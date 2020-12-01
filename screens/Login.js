@@ -1,24 +1,23 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   StyleSheet, Text, View, ScrollView
 } from 'react-native';
 import {
   Input, Button, Icon, withTheme
 } from 'react-native-elements';
-// import {
-//   NavigationScreenComponent,
-//   NavigationScreenProps,
-//   NavigationStackScreenOptions
-// } from 'react-navigation';
 import {
-  selectError
+  selectError,
+  setError,
+  login
 } from '../store/reducers/authReducer';
 
 function Login(props) {
   const { theme, navigation } = props;
 
   const error = useSelector(selectError);
+
+  const dispatch = useDispatch();
 
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -60,10 +59,10 @@ function Login(props) {
         {error}
       </Text>
       <View style={styles.button}>
-        <Button title="Log in" onPress={() => { console.log('email', email); }} />
+        <Button title="Log in" onPress={() => { dispatch(login({ email, password })); }} />
       </View>
       <View style={styles.button}>
-        <Button title="Sign up" onPress={() => navigation.navigate('SignUp')} />
+        <Button title="Sign up" onPress={() => { dispatch(setError(null)); navigation.navigate('SignUp'); }} />
       </View>
     </ScrollView>
   );

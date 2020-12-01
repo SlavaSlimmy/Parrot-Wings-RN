@@ -27,7 +27,7 @@ function Router(props) {
 
   React.useEffect(() => {
     dispatch(restoreToken());
-  }, []);
+  }, [dispatch]);
 
   let content;
   if (loadingRestore) {
