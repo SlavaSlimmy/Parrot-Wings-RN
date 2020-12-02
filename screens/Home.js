@@ -6,7 +6,7 @@ import { FlatList } from 'react-native';
 import {
   selectTransactions,
   getTransactionsList,
-  selectLoaded
+  // selectLoaded
 } from '../store/reducers/transactionsReducer';
 
 import {
