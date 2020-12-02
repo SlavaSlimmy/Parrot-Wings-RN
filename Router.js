@@ -41,7 +41,7 @@ function Router(props) {
     );
   } else {
     content = (
-      <Stack.Screen name="Home" component={Home} options={{ title: 'My home' }} />
+      <Stack.Screen name="Home" component={Home} options={{ title: 'Parrot Wings' }} />
     );
   }
 
