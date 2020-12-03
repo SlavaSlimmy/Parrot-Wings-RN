@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 import { normalize, schema } from 'normalizr';
 import { getTransactions } from '../../api/index';
@@ -12,7 +13,8 @@ export const slice = createSlice({
     orderBy: 'date',
     allIds: [],
     byId: {},
-    loaded: false
+    loaded: false,
+    error: null
   },
   reducers: {
     getTransactionsSuccess: (state, action) => {
@@ -21,16 +23,18 @@ export const slice = createSlice({
         ...state,
         allIds: action.payload.result,
         byId: action.payload.entities.byId,
-        loaded: true
+        loaded: true,
+        error: null
       };
     },
     sortTransactions: (state, action) => {
       console.log('sortTransactions', action);
       const { orderBy, order } = action.payload;
+      state.orderBy = orderBy;
+      state.order = order;
 
-      let data = [];
       if (orderBy === 'date') {
-        data = state.allIds.sort(
+        state.allIds.sort(
           (a, b) => {
             const itemA = new Date(state.byId[a][orderBy]).valueOf();
             const itemB = new Date(state.byId[b][orderBy]).valueOf();
@@ -38,7 +42,7 @@ export const slice = createSlice({
               if (itemA > itemB) {
                 return -1;
               }
-              if ((itemB > itemA)) {
+              if (itemB > itemA) {
                 return 1;
               }
               return 0;
@@ -53,7 +57,7 @@ export const slice = createSlice({
           }
         );
       } else {
-        data = state.allIds.sort(
+        state.allIds.sort(
           (a, b) => {
             if (order === 'desc') {
               if (state.byId[a][orderBy] > state.byId[b][orderBy]) {
@@ -75,22 +79,22 @@ export const slice = createSlice({
         );
       }
 
-      return {
-        ...state,
-        allIds: data,
-        order,
-        orderBy
-      };
+      return state;
+    },
+    setError: (state, action) => {
+      state.error = action.payload;
+      return state;
     },
   }
 });
 
-export const { getTransactionsSuccess, sortTransactions } = slice.actions;
+export const { getTransactionsSuccess, sortTransactions, setError } = slice.actions;
 
 export const getTransactionsList = (token) => async (dispatch) => {
   const data = await getTransactions(token);
+  console.log('getTransactionsList', data);
   if (!data.trans_token) {
-    console.log('Error', data);
+    dispatch(setError(data));
   } else {
     const normalizedData = normalize(data.trans_token, transSchema);
     dispatch(getTransactionsSuccess(normalizedData));
@@ -102,5 +106,6 @@ export const selectTransactions = (state) => state.transactions.allIds.map((val)
   return state.transactions.byId[val];
 });
 export const selectLoaded = (state) => state.transactions.loaded;
+export const selectError = (state) => state.transactions.error;
 
 export default slice.reducer;

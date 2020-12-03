@@ -2,11 +2,9 @@ import React from 'react';
 import {
   View, StyleSheet, TouchableOpacity, Text
 } from 'react-native';
+import { Badge } from 'react-native-elements';
 
-function TransactionItem(props) {
-  const {
-    item
-  } = props;
+function TransactionItem({ item }) {
 
   const {
     username, date, amount, balance
@@ -25,12 +23,8 @@ function TransactionItem(props) {
             </Text>
           </View>
           <View style={styles.rightBlockStyle}>
-            <Text style={[styles.rightTextStyle,
-              styles.amountTextStyle, amount < 0 && styles.amountRedTextStyle]}
-            >
-              { amount }
-            </Text>
-            <Text style={[styles.rightTextStyle, styles.greyTextStyle]}>
+            <Badge textStyle={styles.badgeTextStyle} badgeStyle={styles.badgeStyle} value={amount} status={amount < 0 ? 'error' : 'success'} />
+            <Text style={styles.greyTextStyle}>
               { balance }
             </Text>
           </View>
@@ -58,20 +52,19 @@ const styles = StyleSheet.create({
   },
   rightBlockStyle: {
     flex: 1,
-    flexDirection: 'column'
-  },
-  rightTextStyle: {
-    textAlign: 'right'
+    flexDirection: 'column',
+    alignItems: 'flex-end'
   },
   usernameStyle: {
     fontSize: 16
   },
-  amountTextStyle: {
+  badgeTextStyle: {
     fontSize: 16,
-    color: '#4caf50'
   },
-  amountRedTextStyle: {
-    color: '#f44336'
+  badgeStyle: {
+    height: 24,
+    borderRadius: 12,
+    flex: 1,
   },
   greyTextStyle: {
     fontSize: 12,

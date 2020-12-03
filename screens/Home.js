@@ -1,39 +1,54 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { FlatList } from 'react-native';
+import {
+  FlatList, View, StyleSheet, ActivityIndicator
+} from 'react-native';
+import { ThemeContext } from 'react-native-elements';
 // import { Button } from 'react-native-elements';
 
 import {
   selectTransactions,
   getTransactionsList,
-  // selectLoaded
+  selectLoaded,
+  selectError
 } from '../store/reducers/transactionsReducer';
 
 import {
   selectToken,
 } from '../store/reducers/authReducer';
 
+import ErrorView from '../components/ErrorView';
+
 import TransactionItem from '../components/TransactionItem';
 // import MainBottomSheet from '../components/MainBottomSheet';
 
 function Home() {
+  const { theme } = useContext(ThemeContext);
+
   const dispatch = useDispatch();
 
   const token = useSelector(selectToken);
   const list = useSelector(selectTransactions);
+  const loaded = useSelector(selectLoaded);
+  const error = useSelector(selectError);
 
   React.useEffect(() => {
     dispatch(getTransactionsList(token));
-  });
+  }, []);
 
-  // const list = [
-  //   {
-  //     id: 1, date: 'date 1', username: 'name 1', amount: 100, balance: 400
-  //   },
-  //   {
-  //     id: 2, date: 'date 2', username: 'name 2', amount: -100, balance: 300
-  //   },
-  // ];
+  if (!loaded) {
+    return (
+      <View style={styles.spinnerStyle}>
+        <ActivityIndicator size="large" color={theme.colors.primary} />
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <ErrorView text={error} />
+    );
+  }
 
   const keyExtractor = (item) => item.id.toString();
 
@@ -46,16 +61,12 @@ function Home() {
   );
 }
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//   },
-//   text: {
-//     color: 'red'
-//   }
-// });
+const styles = StyleSheet.create({
+  spinnerStyle: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
+});
 
 export default Home;

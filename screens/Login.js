@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  StyleSheet, Text, View, ScrollView
+  StyleSheet, View, ScrollView
 } from 'react-native';
 import {
   Input, Button, Icon, withTheme
@@ -11,6 +11,7 @@ import {
   setError,
   login
 } from '../store/reducers/authReducer';
+import ErrorView from '../components/ErrorView';
 
 function Login(props) {
   const { theme, navigation } = props;
@@ -55,9 +56,9 @@ function Login(props) {
           onChangeText={setPassword}
         />
       </View>
-      <Text style={styles.error}>
-        {error}
-      </Text>
+
+      <ErrorView text={error} />
+
       <View style={styles.button}>
         <Button title="Log in" onPress={() => { dispatch(login({ email, password })); }} />
       </View>
@@ -73,12 +74,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     paddingTop: '16px'
-  },
-  error: {
-    paddingLeft: '10px',
-    paddingRight: '10px',
-    paddingBottom: '10px',
-    color: 'red'
   },
   button: {
     paddingLeft: '10px',
