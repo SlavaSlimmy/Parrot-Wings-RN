@@ -63,7 +63,7 @@ function Login(props) {
         <Button title="Log in" onPress={() => { dispatch(login({ email, password })); }} />
       </View>
       <View style={styles.button}>
-        <Button title="Sign up" onPress={() => { dispatch(setError(null)); navigation.navigate('SignUp'); }} />
+        <Button title="Sign up" onPress={() => { dispatch(setError(null)); navigation.navigate('AddTransaction'); }} />
       </View>
     </ScrollView>
   );

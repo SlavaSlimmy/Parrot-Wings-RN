@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   FlatList, View, StyleSheet, ActivityIndicator
 } from 'react-native';
-import { ThemeContext } from 'react-native-elements';
+import { ThemeContext, Button, Icon } from 'react-native-elements';
 // import { Button } from 'react-native-elements';
 
 import {
@@ -22,7 +22,8 @@ import ErrorView from '../components/ErrorView';
 import TransactionItem from '../components/TransactionItem';
 // import MainBottomSheet from '../components/MainBottomSheet';
 
-function Home() {
+function Home(props) {
+  const { navigation } = props;
   const { theme } = useContext(ThemeContext);
 
   const dispatch = useDispatch();
@@ -35,6 +36,43 @@ function Home() {
   React.useEffect(() => {
     dispatch(getTransactionsList(token));
   }, []);
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <Button
+          title="Menu"
+          type="clear"
+          titleStyle={styles.btnStyle}
+          icon={(
+            <Icon
+              type="material"
+              name="menu"
+              size={24}
+              color="white"
+            />
+          )}
+          onPress={() => { navigation.navigate('MenuModal'); }}
+        />
+      ),
+      headerRight: () => (
+        <Button
+          title="Add"
+          type="clear"
+          titleStyle={styles.btnStyle}
+          icon={(
+            <Icon
+              type="material"
+              name="library-add"
+              size={24}
+              color="white"
+            />
+          )}
+          onPress={() => { navigation.navigate('AddTransaction'); }}
+        />
+      ),
+    });
+  }, [navigation, dispatch]);
 
   if (!loaded) {
     return (
@@ -53,19 +91,29 @@ function Home() {
   const keyExtractor = (item) => item.id.toString();
 
   return (
-    <FlatList
-      keyExtractor={keyExtractor}
-      data={list}
-      renderItem={TransactionItem}
-    />
+    <View style={styles.container}>
+      <FlatList
+        keyExtractor={keyExtractor}
+        data={list}
+        renderItem={TransactionItem}
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    paddingTop: '16px'
+  },
   spinnerStyle: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+  },
+  btnStyle: {
+    display: 'none'
   }
 });
 

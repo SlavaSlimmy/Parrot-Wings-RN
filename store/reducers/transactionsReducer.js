@@ -107,5 +107,6 @@ export const selectTransactions = (state) => state.transactions.allIds.map((val)
 });
 export const selectLoaded = (state) => state.transactions.loaded;
 export const selectError = (state) => state.transactions.error;
+export const selectOrderBy = (state) => state.transactions.orderBy;
 
 export default slice.reducer;

@@ -37,10 +37,22 @@ export const slice = createSlice({
         error: action.payload
       };
     },
+    setLogout: () => {
+      return {
+        id: null,
+        name: null,
+        email: null,
+        balance: null,
+        token: null,
+        error: null
+      };
+    }
   }
 });
 
-export const { setToken, setUserInfo, setError } = slice.actions;
+export const {
+  setToken, setUserInfo, setError, setLogout
+} = slice.actions;
 
 export const setUser = (token, isStartApp = false) => async (dispatch) => {
   const data = await getUserInfo(token);
@@ -74,6 +86,11 @@ export const signUp = ({ username, password, email }) => async (dispatch) => {
   } else {
     dispatch(setUser(response.id_token));
   }
+};
+
+export const logout = () => async (dispatch) => {
+  await AsyncStorage.setItem('token', null);
+  dispatch(setLogout());
 };
 
 export const selectToken = (state) => state.auth.token;
