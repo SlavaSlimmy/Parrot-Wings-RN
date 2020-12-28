@@ -3,8 +3,8 @@ export const getUserInfo = async (token) => {
   const res = await fetch('http://193.124.114.46:3001/api/protected/user-info', {
     method: 'get',
     headers: {
-      Authorization: `Bearer ${token}`
-    }
+      Authorization: `Bearer ${token}`,
+    },
   });
   // console.log('getUserInfo API', res);
   if (res.ok) {
@@ -18,9 +18,9 @@ export const loginUser = async ({ email, password }) => {
     method: 'post',
     headers: {
       Accept: 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ email, password })
+    body: JSON.stringify({ email, password }),
   });
   // console.log('loginUser API', res);
   if (res.ok) {
@@ -34,9 +34,9 @@ export const signupUser = async ({ username, password, email }) => {
     method: 'post',
     headers: {
       Accept: 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ username, password, email })
+    body: JSON.stringify({ username, password, email }),
   });
   // console.log('signupUser API', res);
   if (res.ok) {
@@ -49,8 +49,8 @@ export const getTransactions = async (token) => {
   const res = await fetch('http://193.124.114.46:3001/api/protected/transactions', {
     method: 'get',
     headers: {
-      Authorization: `Bearer ${token}`
-    }
+      Authorization: `Bearer ${token}`,
+    },
   });
   // console.log('getTransactions API', res);
   if (res.ok) {

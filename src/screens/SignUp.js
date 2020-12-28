@@ -1,17 +1,22 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  StyleSheet, View, ScrollView
-} from 'react-native';
-import {
-  Input, Button, Icon, withTheme
-} from 'react-native-elements';
-import {
-  selectError,
-  setError,
-  signUp
-} from '../store/reducers/authReducer';
+import { StyleSheet, View, ScrollView } from 'react-native';
+import { Input, Button, Icon, withTheme } from 'react-native-elements';
+import { selectError, setError, signUp } from '../store/reducers/authReducer';
 import ErrorView from '../components/ErrorView';
+
+const styles = StyleSheet.create({
+  button: {
+    paddingBottom: '16px',
+    paddingLeft: '10px',
+    paddingRight: '10px',
+  },
+  container: {
+    backgroundColor: '#fff',
+    flex: 1,
+    paddingTop: '16px',
+  },
+});
 
 function SignUp(props) {
   const { theme, navigation } = props;
@@ -31,15 +36,11 @@ function SignUp(props) {
         <Button
           title="Back"
           type="clear"
-          icon={(
-            <Icon
-              type="material"
-              name="arrow-back"
-              size={24}
-              color="white"
-            />
-          )}
-          onPress={() => { dispatch(setError(null)); navigation.goBack(); }}
+          icon={<Icon type="material" name="arrow-back" size={24} color="white" />}
+          onPress={() => {
+            dispatch(setError(null));
+            navigation.goBack();
+          }}
         />
       ),
     });
@@ -80,14 +81,7 @@ function SignUp(props) {
       <View>
         <Input
           placeholder="John Smith"
-          leftIcon={(
-            <Icon
-              type="material"
-              name="person"
-              size={24}
-              color={theme.colors.primary}
-            />
-          )}
+          leftIcon={<Icon type="material" name="person" size={24} color={theme.colors.primary} />}
           value={username}
           onChangeText={setName}
         />
@@ -95,14 +89,7 @@ function SignUp(props) {
       <View>
         <Input
           placeholder="email@gmail.com"
-          leftIcon={(
-            <Icon
-              type="material"
-              name="email"
-              size={24}
-              color={theme.colors.primary}
-            />
-          )}
+          leftIcon={<Icon type="material" name="email" size={24} color={theme.colors.primary} />}
           value={email}
           onChangeText={setEmail}
         />
@@ -111,14 +98,7 @@ function SignUp(props) {
         <Input
           placeholder="Password"
           secureTextEntry
-          leftIcon={(
-            <Icon
-              type="material"
-              name="https"
-              size={24}
-              color={theme.colors.primary}
-            />
-          )}
+          leftIcon={<Icon type="material" name="https" size={24} color={theme.colors.primary} />}
           value={password}
           onChangeText={setPassword}
         />
@@ -127,14 +107,7 @@ function SignUp(props) {
         <Input
           placeholder="Password Again"
           secureTextEntry
-          leftIcon={(
-            <Icon
-              type="material"
-              name="https"
-              size={24}
-              color={theme.colors.primary}
-            />
-          )}
+          leftIcon={<Icon type="material" name="https" size={24} color={theme.colors.primary} />}
           value={repassword}
           onChangeText={setRePassword}
         />
@@ -146,18 +119,5 @@ function SignUp(props) {
     </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    paddingTop: '16px'
-  },
-  button: {
-    paddingLeft: '10px',
-    paddingRight: '10px',
-    paddingBottom: '16px'
-  }
-});
 
 export default withTheme(SignUp);

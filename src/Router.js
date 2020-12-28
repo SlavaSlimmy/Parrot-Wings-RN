@@ -9,14 +9,9 @@ import SplashScreen from './screens/SplashScreen';
 import Login from './screens/Login';
 import AddTransaction from './screens/AddTransaction';
 import MenuModal from './screens/MenuModal';
-import {
-  selectLoading,
-  restoreToken,
-} from './store/reducers/restoreAuthReducer';
+import { selectLoading, restoreToken } from './store/reducers/restoreAuthReducer';
 
-import {
-  selectToken
-} from './store/reducers/authReducer';
+import { selectToken } from './store/reducers/authReducer';
 
 function Router(props) {
   const { theme } = props;
@@ -66,11 +61,11 @@ function Router(props) {
             fontWeight: 'bold',
           },
           headerLeftContainerStyle: {
-            paddingHorizontal: 10
+            paddingHorizontal: 10,
           },
           headerRightContainerStyle: {
-            paddingHorizontal: 10
-          }
+            paddingHorizontal: 10,
+          },
         }}
       >
         <MainStack.Screen name="Home" component={Home} options={{ title: 'Parrot Wings' }} />
@@ -80,21 +75,9 @@ function Router(props) {
 
   let content;
   if (token == null) {
-    content = (
-      <RootStack.Screen
-        name="Auth"
-        component={AuthStackScreen}
-        options={{ headerShown: false }}
-      />
-    );
+    content = <RootStack.Screen name="Auth" component={AuthStackScreen} options={{ headerShown: false }} />;
   } else {
-    content = (
-      <RootStack.Screen
-        name="Main"
-        component={MainStackScreen}
-        options={{ headerShown: false }}
-      />
-    );
+    content = <RootStack.Screen name="Main" component={MainStackScreen} options={{ headerShown: false }} />;
   }
 
   if (loadingRestore) {

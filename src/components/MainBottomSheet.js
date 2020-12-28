@@ -2,9 +2,7 @@ import React from 'react';
 // import {
 //   Text
 // } from 'react-native';
-import {
-  BottomSheet, ListItem
-} from 'react-native-elements';
+import { BottomSheet, ListItem } from 'react-native-elements';
 
 function MainBottomSheet() {
   const [isVisible, setIsVisible] = React.useState(false);

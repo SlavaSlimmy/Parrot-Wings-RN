@@ -4,13 +4,15 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { View, StyleSheet } from 'react-native';
 import { ListItem, Icon } from 'react-native-elements';
-import {
-  sortTransactions
-} from '../store/reducers/transactionsReducer';
+import { sortTransactions } from '../store/reducers/transactionsReducer';
 
-import {
-  logout
-} from '../store/reducers/authReducer';
+import { logout } from '../store/reducers/authReducer';
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
 
 const sortList = [
   {
@@ -45,17 +47,26 @@ function MenuModal({ navigation }) {
 
   return (
     <View style={styles.container}>
-      {
-        sortList.map((item) => (
-          <ListItem key={item.value} bottomDivider onPress={() => { pressItem(item); }}>
-            <Icon name={item.icon} />
-            <ListItem.Content>
-              <ListItem.Title>{item.title}</ListItem.Title>
-            </ListItem.Content>
-          </ListItem>
-        ))
-      }
-      <ListItem bottomDivider onPress={() => { Logout(); }}>
+      {sortList.map((item) => (
+        <ListItem
+          key={item.value}
+          bottomDivider
+          onPress={() => {
+            pressItem(item);
+          }}
+        >
+          <Icon name={item.icon} />
+          <ListItem.Content>
+            <ListItem.Title>{item.title}</ListItem.Title>
+          </ListItem.Content>
+        </ListItem>
+      ))}
+      <ListItem
+        bottomDivider
+        onPress={() => {
+          Logout();
+        }}
+      >
         <Icon name="exit-to-app" />
         <ListItem.Content>
           <ListItem.Title>Logout</ListItem.Title>
@@ -64,11 +75,5 @@ function MenuModal({ navigation }) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-});
 
 export default MenuModal;

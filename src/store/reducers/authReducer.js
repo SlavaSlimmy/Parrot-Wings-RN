@@ -11,14 +11,14 @@ export const slice = createSlice({
     email: null,
     balance: null,
     token: null,
-    error: null
+    error: null,
   },
   reducers: {
     setToken: (state, action) => {
       console.log('setToken', action);
       return {
         ...state,
-        token: action.payload
+        token: action.payload,
       };
     },
     setUserInfo: (state, action) => {
@@ -28,13 +28,13 @@ export const slice = createSlice({
         id: action.payload.id,
         name: action.payload.name,
         email: action.payload.email,
-        balance: action.payload.balance
+        balance: action.payload.balance,
       };
     },
     setError: (state, action) => {
       return {
         ...state,
-        error: action.payload
+        error: action.payload,
       };
     },
     setLogout: () => {
@@ -44,15 +44,13 @@ export const slice = createSlice({
         email: null,
         balance: null,
         token: null,
-        error: null
+        error: null,
       };
-    }
-  }
+    },
+  },
 });
 
-export const {
-  setToken, setUserInfo, setError, setLogout
-} = slice.actions;
+export const { setToken, setUserInfo, setError, setLogout } = slice.actions;
 
 export const setUser = (token, isStartApp = false) => async (dispatch) => {
   const data = await getUserInfo(token);

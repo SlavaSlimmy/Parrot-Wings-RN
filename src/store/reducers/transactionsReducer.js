@@ -14,7 +14,7 @@ export const slice = createSlice({
     allIds: [],
     byId: {},
     loaded: false,
-    error: null
+    error: null,
   },
   reducers: {
     getTransactionsSuccess: (state, action) => {
@@ -24,7 +24,7 @@ export const slice = createSlice({
         allIds: action.payload.result,
         byId: action.payload.entities.byId,
         loaded: true,
-        error: null
+        error: null,
       };
     },
     sortTransactions: (state, action) => {
@@ -34,49 +34,45 @@ export const slice = createSlice({
       state.order = order;
 
       if (orderBy === 'date') {
-        state.allIds.sort(
-          (a, b) => {
-            const itemA = new Date(state.byId[a][orderBy]).valueOf();
-            const itemB = new Date(state.byId[b][orderBy]).valueOf();
-            if (order === 'desc') {
-              if (itemA > itemB) {
-                return -1;
-              }
-              if (itemB > itemA) {
-                return 1;
-              }
-              return 0;
+        state.allIds.sort((a, b) => {
+          const itemA = new Date(state.byId[a][orderBy]).valueOf();
+          const itemB = new Date(state.byId[b][orderBy]).valueOf();
+          if (order === 'desc') {
+            if (itemA > itemB) {
+              return -1;
             }
             if (itemB > itemA) {
-              return -1;
-            }
-            if ((itemA > itemB)) {
               return 1;
             }
             return 0;
           }
-        );
+          if (itemB > itemA) {
+            return -1;
+          }
+          if (itemA > itemB) {
+            return 1;
+          }
+          return 0;
+        });
       } else {
-        state.allIds.sort(
-          (a, b) => {
-            if (order === 'desc') {
-              if (state.byId[a][orderBy] > state.byId[b][orderBy]) {
-                return -1;
-              }
-              if ((state.byId[b][orderBy] > state.byId[a][orderBy])) {
-                return 1;
-              }
-              return 0;
+        state.allIds.sort((a, b) => {
+          if (order === 'desc') {
+            if (state.byId[a][orderBy] > state.byId[b][orderBy]) {
+              return -1;
             }
             if (state.byId[b][orderBy] > state.byId[a][orderBy]) {
-              return -1;
-            }
-            if ((state.byId[a][orderBy] > state.byId[b][orderBy])) {
               return 1;
             }
             return 0;
           }
-        );
+          if (state.byId[b][orderBy] > state.byId[a][orderBy]) {
+            return -1;
+          }
+          if (state.byId[a][orderBy] > state.byId[b][orderBy]) {
+            return 1;
+          }
+          return 0;
+        });
       }
 
       return state;
@@ -85,7 +81,7 @@ export const slice = createSlice({
       state.error = action.payload;
       return state;
     },
-  }
+  },
 });
 
 export const { getTransactionsSuccess, sortTransactions, setError } = slice.actions;
@@ -102,9 +98,10 @@ export const getTransactionsList = (token) => async (dispatch) => {
   }
 };
 
-export const selectTransactions = (state) => state.transactions.allIds.map((val) => {
-  return state.transactions.byId[val];
-});
+export const selectTransactions = (state) =>
+  state.transactions.allIds.map((val) => {
+    return state.transactions.byId[val];
+  });
 export const selectLoaded = (state) => state.transactions.loaded;
 export const selectError = (state) => state.transactions.error;
 export const selectOrderBy = (state) => state.transactions.orderBy;
